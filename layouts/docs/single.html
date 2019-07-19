@@ -1,0 +1,34 @@
+{{ define "main" }}
+{{ $section_parent := .Parent.Permalink }}
+
+
+{{ $section_home := .Site.GetPage "section" "docs" }}
+
+<div class="container padding-m">
+    {{ if $section_parent }}
+        <a href="{{ $section_parent }}">< Go Up</a> ---- 
+    {{ end }}
+    <a href="{{ $section_home.Permalink }}">Docs Home</a>
+    <article>
+        <h1>{{ .Title }}</h1>
+        {{ .Content }}
+    </article>
+
+    <div class="col-3 stickyNav padding-m-top">
+        {{ $related := .Site.RegularPages.Related . | first 5 }}
+
+        {{ with $related }}
+        <ul class="showrelated">
+            <li>Related Docs</li>
+            {{ range . }}
+            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+        </ul>
+        {{ end }}
+    </div>
+
+    
+
+</div>
+
+{{ end }}

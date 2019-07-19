@@ -1,0 +1,63 @@
+{{ define "main" }}
+{{ $section_parent := .Parent.Permalink }}
+{{ $home := .Site.GetPage "/"}}
+
+<section class="padding-m">
+    <div class="container">
+        {{ $sections := true }}
+        {{ if and ($section_parent) (ne $section_parent $home.Permalink ) }}
+            <a href="{{ $section_parent }}">< Go Up</a>
+        {{ end }}
+            <h1>{{ .Title }} - {{ .Section }}</h1>
+        {{ if .Sections }}
+            {{ range .Sections }}
+            {{ $total := len .Pages }}
+            <div class="row">
+                <h2>{{ .Title }} - {{ $total }}</h2>
+            </div>
+            
+            <div class="row flex wrap">
+                
+                
+                <div class="col-6">
+                    {{ range $index, $p := .Pages }}
+                    {{ $index = add $index 1 }}
+                        <li><a href="{{.Permalink }}">{{ .Title }}</a></li>
+
+                        {{ if eq $index 3 }}
+                            </div><div class="col-6">
+                        {{ else if eq $index $total }}
+                            </div><!--col-->
+                        {{ end }}
+
+                    {{ end }}
+                    {{ template "_internal/pagination.html" . }}
+            </div>
+            {{ end }}
+            <hr>
+        {{ else }}
+            <div class="row flew wrap">
+                {{ $total := len .Pages }}
+                <div class="col-6">
+                    {{ range $index, $p := .Pages }}
+                    {{ $index = add $index 1 }}
+                        <li><a href="{{.Permalink }}">{{ .Title }}</a></li>
+
+                        {{ if eq $index 2 }}
+                            </div><div class="col-6">
+                        {{ else if eq $index $total }}
+                            </div><!--col-->
+                        {{ end }}
+
+                    {{ end }}
+                    {{ template "_internal/pagination.html" . }}
+            </div>
+            
+        {{ end }}
+
+        
+    </div>
+</section>
+
+    
+{{ end }}
